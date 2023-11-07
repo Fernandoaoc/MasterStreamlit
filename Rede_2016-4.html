@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 500px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"Cotas_Emitidas": 692257.0, "Patrimonio_Liquido": 2021615953.51, "Percentual_Rentabilidade_Efetiva_Mes": -0.088336, "Tipo": "FII", "Valor_Patrimonial_Cotas": 2920.32576558995, "betweenness": 0.02585604472396925, "color": "#d0d02f", "degree": 2, "eigenvector": 0.04254965213194342, "id": "01235622000161", "label": "01235622000161", "modularity": 3, "pagerank": 0.01742597750725549, "shape": "dot", "size": 63}, {"betweenness": 0.23992546005124607, "color": "#97c2fc", "degree": 4, "eigenvector": 0.20203085238296847, "id": "14410722000129", "label": "14410722000129", "modularity": 3, "pagerank": 0.028634709201865876, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.00859570714594069, "id": "10522648000181", "label": "10522648000181", "modularity": 3, "pagerank": 0.010132863312756753, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 6452944.0, "Patrimonio_Liquido": 701225176.79, "Percentual_Rentabilidade_Efetiva_Mes": 0.0123, "Tipo": "FII", "Valor_Patrimonial_Cotas": 108.667482127537, "betweenness": 0.10167714884696016, "color": "#d0d02f", "degree": 9, "eigenvector": 0.2590594491051475, "id": "13371132000171", "label": "13371132000171", "modularity": 2, "pagerank": 0.06269188036830765, "shape": "dot", "size": 37}, {"Cotas_Emitidas": 107481.0, "Patrimonio_Liquido": 111424799.2, "Percentual_Rentabilidade_Efetiva_Mes": 0.0101, "Tipo": "FII", "Valor_Patrimonial_Cotas": 1036.6929894586, "betweenness": 0.18238993710691823, "color": "#d0d02f", "degree": 2, "eigenvector": 0.04338498315009066, "id": "15394563000189", "label": "15394563000189", "modularity": 3, "pagerank": 0.014714315516326721, "shape": "dot", "size": 55}, {"Cotas_Emitidas": 820115.0, "Patrimonio_Liquido": 89770671.26, "Percentual_Rentabilidade_Efetiva_Mes": 0.022332, "Tipo": "FII", "Valor_Patrimonial_Cotas": 109.461077117234, "betweenness": 0.35604472396925224, "color": "#d0d02f", "degree": 22, "eigenvector": 0.6550830885499499, "id": "20216935000117", "label": "20216935000117", "modularity": 0, "pagerank": 0.163801006923142, "shape": "dot", "size": 37}, {"Cotas_Emitidas": 224952.0, "Patrimonio_Liquido": 1559301309.55, "Percentual_Rentabilidade_Efetiva_Mes": 0.002206, "Tipo": "FII", "Valor_Patrimonial_Cotas": 6931.70680656318, "betweenness": 0.0, "color": "#d0d02f", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "07583627000161", "label": "07583627000161", "modularity": 6, "pagerank": 0.01818181818181818, "shape": "dot", "size": 70}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "0", "label": "0", "modularity": 6, "pagerank": 0.01818181818181818, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 135000.0625, "Patrimonio_Liquido": 141147939.48, "Percentual_Rentabilidade_Efetiva_Mes": 0.010483, "Tipo": "FII", "Valor_Patrimonial_Cotas": 1045.53980839824, "betweenness": 0.0, "color": "#d0d02f", "degree": 2, "eigenvector": 0.001697681195489124, "id": "10347505000180", "label": "10347505000180", "modularity": 1, "pagerank": 0.014270725020676797, "shape": "dot", "size": 55}, {"betweenness": 0.03773584905660377, "color": "#97c2fc", "degree": 4, "eigenvector": 0.0039722326309683115, "id": "23740575000146", "label": "23740575000146", "modularity": 1, "pagerank": 0.027673651962397336, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 1184427.8374, "Patrimonio_Liquido": 1244223863.91, "Percentual_Rentabilidade_Efetiva_Mes": 0.010483, "Tipo": "FII", "Valor_Patrimonial_Cotas": 1050.48515799938, "betweenness": 0.013277428371767994, "color": "#d0d02f", "degree": 4, "eigenvector": 0.004419981069448256, "id": "20265434000120", "label": "20265434000120", "modularity": 1, "pagerank": 0.026648681668508405, "shape": "dot", "size": 55}, {"Cotas_Emitidas": 817554.1363, "Patrimonio_Liquido": 854773629.21, "Percentual_Rentabilidade_Efetiva_Mes": 0.010483, "Tipo": "FII", "Valor_Patrimonial_Cotas": 1045.52541692033, "betweenness": 0.18099231306778477, "color": "#d0d02f", "degree": 7, "eigenvector": 0.012723489129614837, "id": "10348185000183", "label": "10348185000183", "modularity": 1, "pagerank": 0.048601703924436176, "shape": "dot", "size": 55}, {"Cotas_Emitidas": 135000.0625, "Patrimonio_Liquido": 141147939.48, "Percentual_Rentabilidade_Efetiva_Mes": 0.010483, "Tipo": "FII", "Valor_Patrimonial_Cotas": 1045.53980839824, "betweenness": 0.0, "color": "#d0d02f", "degree": 1, "eigenvector": 0.0008035605648054977, "id": "14422044000114", "label": "14422044000114", "modularity": 1, "pagerank": 0.008607889515362978, "shape": "dot", "size": 55}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.0025717978791117424, "id": "14786587000110", "label": "14786587000110", "modularity": 1, "pagerank": 0.00862899674060392, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.0025717978791117424, "id": "23740552000131", "label": "23740552000131", "modularity": 1, "pagerank": 0.00862899674060392, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 2, "eigenvector": 0.0034659185097953684, "id": "23177717000109", "label": "23177717000109", "modularity": 1, "pagerank": 0.014291832245917737, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.0025717978791117424, "id": "19805989000139", "label": "19805989000139", "modularity": 1, "pagerank": 0.00862899674060392, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 31219.0, "Patrimonio_Liquido": 338718611.97, "Percentual_Rentabilidade_Efetiva_Mes": 0.00845, "Tipo": "FII", "Valor_Patrimonial_Cotas": 10849.7585435152, "betweenness": 0.0, "color": "#d0d02f", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "10456799000189", "label": "10456799000189", "modularity": 7, "pagerank": 0.01818181818181818, "shape": "dot", "size": 74}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "868235000108", "label": "868235000108", "modularity": 7, "pagerank": 0.01818181818181818, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 153.4270025, "Patrimonio_Liquido": 193323844.77, "Percentual_Rentabilidade_Efetiva_Mes": -0.006171, "Tipo": "FII", "Valor_Patrimonial_Cotas": 1260037.94390756, "betweenness": 0.0, "color": "#d0d02f", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "11268335000101", "label": "11268335000101", "modularity": 8, "pagerank": 0.01818181818181818, "shape": "dot", "size": 112}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "17216625000198", "label": "17216625000198", "modularity": 8, "pagerank": 0.01818181818181818, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 4735662339.00747, "Patrimonio_Liquido": 5861145609.96, "Percentual_Rentabilidade_Efetiva_Mes": -0.000606, "Tipo": "FII", "Valor_Patrimonial_Cotas": 1.23766121618975, "betweenness": 0.0, "color": "#d0d02f", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "12989974000129", "label": "12989974000129", "modularity": 9, "pagerank": 0.01818181818181818, "shape": "dot", "size": 1}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "12927767000140", "label": "12927767000140", "modularity": 9, "pagerank": 0.01818181818181818, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.05233387566963858, "id": "11260134000168", "label": "11260134000168", "modularity": 2, "pagerank": 0.008647655428147, "shape": "dot", "size": 10}, {"betweenness": 0.007919869555089684, "color": "#97c2fc", "degree": 2, "eigenvector": 0.18467025288362618, "id": "15333306000137", "label": "15333306000137", "modularity": 2, "pagerank": 0.014975801839604319, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.05233387566963858, "id": "08431747000106", "label": "08431747000106", "modularity": 2, "pagerank": 0.008647655428147, "shape": "dot", "size": 10}, {"betweenness": 0.007919869555089684, "color": "#97c2fc", "degree": 2, "eigenvector": 0.18467025288362618, "id": "14879856000193", "label": "14879856000193", "modularity": 2, "pagerank": 0.014975801839604319, "shape": "dot", "size": 10}, {"betweenness": 0.007919869555089684, "color": "#97c2fc", "degree": 2, "eigenvector": 0.18467025288362618, "id": "11839593000109", "label": "11839593000109", "modularity": 2, "pagerank": 0.014975801839604319, "shape": "dot", "size": 10}, {"betweenness": 0.007919869555089684, "color": "#97c2fc", "degree": 2, "eigenvector": 0.18467025288362618, "id": "13022993000144", "label": "13022993000144", "modularity": 2, "pagerank": 0.014975801839604319, "shape": "dot", "size": 10}, {"betweenness": 0.007919869555089684, "color": "#97c2fc", "degree": 2, "eigenvector": 0.18467025288362618, "id": "16915840000114", "label": "16915840000114", "modularity": 2, "pagerank": 0.014975801839604319, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.05233387566963858, "id": "11281322000172", "label": "11281322000172", "modularity": 2, "pagerank": 0.008647655428147, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 954304.0, "Patrimonio_Liquido": 109955777.89, "Percentual_Rentabilidade_Efetiva_Mes": 0.005358935304718, "Tipo": "FII", "Valor_Patrimonial_Cotas": 115.220912717541, "betweenness": 0.0, "color": "#d0d02f", "degree": 1, "eigenvector": 5.590889036054777e-14, "id": "14080689000116", "label": "14080689000116", "modularity": 4, "pagerank": 0.014004627869818214, "shape": "dot", "size": 37}, {"Cotas_Emitidas": 1000000.0, "Patrimonio_Liquido": 109796773.76, "Percentual_Rentabilidade_Efetiva_Mes": 0.0073830918264505, "Tipo": "FII", "Valor_Patrimonial_Cotas": 109.79677376, "betweenness": 0.0006988120195667365, "color": "#d0d02f", "degree": 2, "eigenvector": 7.906711100511705e-14, "id": "17156502000109", "label": "17156502000109", "modularity": 4, "pagerank": 0.026536198805818114, "shape": "dot", "size": 37}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 5.590889036054777e-14, "id": "13464208000103", "label": "13464208000103", "modularity": 4, "pagerank": 0.014004627869818214, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 1000000.0, "Patrimonio_Liquido": 100072542.88, "Percentual_Rentabilidade_Efetiva_Mes": 0.004653, "Tipo": "FII", "Valor_Patrimonial_Cotas": 100.07254288, "betweenness": 0.0006988120195667365, "color": "#d0d02f", "degree": 2, "eigenvector": 7.906711100511705e-14, "id": "18979895000113", "label": "18979895000113", "modularity": 5, "pagerank": 0.026536198805818114, "shape": "dot", "size": 36}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 5.590889036054777e-14, "id": "22459737000100", "label": "22459737000100", "modularity": 5, "pagerank": 0.014004627869818214, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 5.590889036054777e-14, "id": "22957521000174", "label": "22957521000174", "modularity": 5, "pagerank": 0.014004627869818214, "shape": "dot", "size": 10}, {"Cotas_Emitidas": 932.32504805, "Patrimonio_Liquido": 920017997.45, "Percentual_Rentabilidade_Efetiva_Mes": 0.001432, "Tipo": "FII", "Valor_Patrimonial_Cotas": 986799.613905321, "betweenness": 0.0, "color": "#d0d02f", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "19131224000160", "label": "19131224000160", "modularity": 10, "pagerank": 0.01818181818181818, "shape": "dot", "size": 110}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 1.5863101803185356e-16, "id": "332266000131", "label": "332266000131", "modularity": 10, "pagerank": 0.01818181818181818, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "9072017000129", "label": "9072017000129", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "16671412000193", "label": "16671412000193", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "16706958000132", "label": "16706958000132", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "17365105000147", "label": "17365105000147", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "12948291000123", "label": "12948291000123", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "15006286000190", "label": "15006286000190", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "13551286000145", "label": "13551286000145", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "11602654000101", "label": "11602654000101", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "8924783000101", "label": "8924783000101", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "3507519000159", "label": "3507519000159", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "15296696000112", "label": "15296696000112", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "12005956000165", "label": "12005956000165", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "13966653000171", "label": "13966653000171", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "4722883000102", "label": "4722883000102", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "7122725000100", "label": "7122725000100", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}, {"betweenness": 0.0, "color": "#97c2fc", "degree": 1, "eigenvector": 0.13233637721398758, "id": "11728688000147", "label": "11728688000147", "modularity": 0, "pagerank": 0.009055419138730047, "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"Cotas_Emitidas": 692257.0, "Quantidade": 187305.0, "arrows": "to", "from": "01235622000161", "to": "14410722000129", "width": 1}, {"Cotas_Emitidas": 692257.0, "Quantidade": 44250.0, "arrows": "to", "from": "01235622000161", "to": "10522648000181", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 268056.0, "arrows": "to", "from": "14410722000129", "to": "13371132000171", "width": 1}, {"Cotas_Emitidas": 107481.0, "Quantidade": 12000.0, "arrows": "to", "from": "14410722000129", "to": "15394563000189", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 70746.0, "arrows": "to", "from": "14410722000129", "to": "20216935000117", "width": 1}, {"Cotas_Emitidas": 224952.0, "Quantidade": 0.0, "arrows": "to", "from": "07583627000161", "to": "0", "width": 1}, {"Cotas_Emitidas": 135000.0625, "Quantidade": 4878.0, "arrows": "to", "from": "10347505000180", "to": "23740575000146", "width": 1}, {"Cotas_Emitidas": 1184427.8374, "Quantidade": 5662.20510998, "arrows": "to", "from": "10347505000180", "to": "20265434000120", "width": 1}, {"Cotas_Emitidas": 817554.1363, "Quantidade": 55000.0, "arrows": "to", "from": "23740575000146", "to": "10348185000183", "width": 1}, {"Cotas_Emitidas": 135000.0625, "Quantidade": 5000.0, "arrows": "to", "from": "23740575000146", "to": "14422044000114", "width": 1}, {"Cotas_Emitidas": 1184427.8374, "Quantidade": 50000.0, "arrows": "to", "from": "23740575000146", "to": "20265434000120", "width": 1}, {"Cotas_Emitidas": 817554.1363, "Quantidade": 750127.7179, "arrows": "to", "from": "10348185000183", "to": "14786587000110", "width": 1}, {"Cotas_Emitidas": 817554.1363, "Quantidade": 4701.0, "arrows": "to", "from": "10348185000183", "to": "15394563000189", "width": 1}, {"Cotas_Emitidas": 817554.1363, "Quantidade": 103500.0, "arrows": "to", "from": "10348185000183", "to": "23740552000131", "width": 1}, {"Cotas_Emitidas": 817554.1363, "Quantidade": 621760.24899, "arrows": "to", "from": "10348185000183", "to": "23177717000109", "width": 1}, {"Cotas_Emitidas": 817554.1363, "Quantidade": 51869.7648915, "arrows": "to", "from": "10348185000183", "to": "19805989000139", "width": 1}, {"Cotas_Emitidas": 1184427.8374, "Quantidade": 121746.2981, "arrows": "to", "from": "10348185000183", "to": "20265434000120", "width": 1}, {"Cotas_Emitidas": 1184427.8374, "Quantidade": 1363613.40033, "arrows": "to", "from": "23177717000109", "to": "20265434000120", "width": 1}, {"Cotas_Emitidas": 31219.0, "Quantidade": 1.0, "arrows": "to", "from": "10456799000189", "to": "868235000108", "width": 1}, {"Cotas_Emitidas": 153.4270025, "Quantidade": 19408.0, "arrows": "to", "from": "11268335000101", "to": "17216625000198", "width": 1}, {"Cotas_Emitidas": 4735662339.00747, "Quantidade": 100000.0, "arrows": "to", "from": "12989974000129", "to": "12927767000140", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 27672.0, "arrows": "to", "from": "13371132000171", "to": "11260134000168", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 346476.0, "arrows": "to", "from": "13371132000171", "to": "15333306000137", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 3221.0, "arrows": "to", "from": "13371132000171", "to": "08431747000106", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 12895.0, "arrows": "to", "from": "13371132000171", "to": "14879856000193", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 57245.0, "arrows": "to", "from": "13371132000171", "to": "11839593000109", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 126743.0, "arrows": "to", "from": "13371132000171", "to": "13022993000144", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 594615.0, "arrows": "to", "from": "13371132000171", "to": "16915840000114", "width": 1}, {"Cotas_Emitidas": 6452944.0, "Quantidade": 4715.0, "arrows": "to", "from": "13371132000171", "to": "11281322000172", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 30035.0, "arrows": "to", "from": "15333306000137", "to": "20216935000117", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 44084.0, "arrows": "to", "from": "14879856000193", "to": "20216935000117", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 34803.0, "arrows": "to", "from": "11839593000109", "to": "20216935000117", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 32944.0, "arrows": "to", "from": "13022993000144", "to": "20216935000117", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 44635.0, "arrows": "to", "from": "16915840000114", "to": "20216935000117", "width": 1}, {"Cotas_Emitidas": 954304.0, "Quantidade": 22258.0, "arrows": "to", "from": "14080689000116", "to": "17156502000109", "width": 1}, {"Cotas_Emitidas": 1000000.0, "Quantidade": 150.0, "arrows": "to", "from": "17156502000109", "to": "13464208000103", "width": 1}, {"Cotas_Emitidas": 1000000.0, "Quantidade": 43636.0, "arrows": "to", "from": "18979895000113", "to": "22459737000100", "width": 1}, {"Cotas_Emitidas": 1000000.0, "Quantidade": 1815000.0, "arrows": "to", "from": "18979895000113", "to": "22957521000174", "width": 1}, {"Cotas_Emitidas": 932.32504805, "Quantidade": 904539.0, "arrows": "to", "from": "19131224000160", "to": "332266000131", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 3752.0, "arrows": "to", "from": "20216935000117", "to": "9072017000129", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 28448.0, "arrows": "to", "from": "20216935000117", "to": "16671412000193", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 12000.0, "arrows": "to", "from": "20216935000117", "to": "16706958000132", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 62544.0, "arrows": "to", "from": "20216935000117", "to": "17365105000147", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 3174.0, "arrows": "to", "from": "20216935000117", "to": "12948291000123", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 10192.0, "arrows": "to", "from": "20216935000117", "to": "15006286000190", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 371.0, "arrows": "to", "from": "20216935000117", "to": "13551286000145", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 2252.0, "arrows": "to", "from": "20216935000117", "to": "11602654000101", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 99673.0, "arrows": "to", "from": "20216935000117", "to": "8924783000101", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 268.0, "arrows": "to", "from": "20216935000117", "to": "3507519000159", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 23780.0, "arrows": "to", "from": "20216935000117", "to": "15296696000112", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 63139.0, "arrows": "to", "from": "20216935000117", "to": "12005956000165", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 40513.0, "arrows": "to", "from": "20216935000117", "to": "13966653000171", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 4051.0, "arrows": "to", "from": "20216935000117", "to": "4722883000102", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 286.0, "arrows": "to", "from": "20216935000117", "to": "7122725000100", "width": 1}, {"Cotas_Emitidas": 820115.0, "Quantidade": 3952.0, "arrows": "to", "from": "20216935000117", "to": "11728688000147", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
